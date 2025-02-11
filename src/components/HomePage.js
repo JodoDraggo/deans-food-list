@@ -67,7 +67,7 @@ export default function HomePage() {
         const checkOffItem = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const response = await axios.post('http://localhost:3001/items_check', {the_item}, { //calls to database, at port 3001, that it wants items
+                const response = await axios.post('http://deansfoodlist.ddns.net:3001/items_check', {the_item}, { //calls to database, at port 3001, that it wants items
                     headers: {Authorization: `Bearer ${token}`} //Add Bearer before token for POST request
                 });
 
@@ -96,7 +96,7 @@ export default function HomePage() {
         if(token) {
             const fetchItems = async () => {
                 try {
-                    const items = await axios.get("http://localhost:3001/items", {
+                    const items = await axios.get("http://deansfoodlist.ddns.net:3001/items", {
                         headers: {Authorization: `Bearer ${token}`}
                     });
                     setNewItems(items.data); //Store the detched items
@@ -119,7 +119,7 @@ export default function HomePage() {
 
         try {
             const token = localStorage.getItem('token');
-            const response = await axios.post('http://localhost:3001/items', {ListItem: inputText}, { //calls to database, at port 3001, that it wants items
+            const response = await axios.post('http://deansfoodlist.ddns.net:3001/items', {ListItem: inputText}, { //calls to database, at port 3001, that it wants items
                 headers: {Authorization: `Bearer ${token}`} //Add Bearer before token for POST request
             });
 
@@ -150,7 +150,7 @@ export default function HomePage() {
 
         try {
             const token = localStorage.getItem('token');
-            const response = await axios.post('http://localhost:3001/items_delete', {newItems}, { //calls to database, at port 3001, that it wants items
+            const response = await axios.post('http://deansfoodlist.ddns.net:3001/items_delete', {newItems}, { //calls to database, at port 3001, that it wants items
                 headers: {Authorization: `Bearer ${token}`} //Add Bearer before token for POST request
             });
             //only setNewItems if the requests succeeded.

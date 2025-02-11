@@ -7,9 +7,13 @@ export default function LoginPage() {
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
 
+    const baseUrl = process.env.NODE_ENV === "production"
+        ? "http://deansfoodlist.ddns.net:3001"
+        : "http://192.168.0.24:3001";
+
     const handleLogin = async () => {
         try {
-            const response = await axios.post('http://localhost:3001/login', {
+            const response = await axios.post('http://deansfoodlist.ddns.net:3001/login', {
                 username,
                 password,
             });
@@ -27,25 +31,54 @@ export default function LoginPage() {
         }
     };
 
+/* Original, before CSS 
     return (
         <div>
-            <br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br>
-            <h1>Login</h1>
-            <input
-                type="text"
-                placeholder='Username'
-                value={username}
-                onChange={(username) => setUsername(username.target.value)}
-            />
-            <input
-                type="password"
-                placeholder='Password'
-                value={password}
-                onChange={(password) => setPassword(password.target.value)}
-            />
-            <button onClick={handleLogin}>Login</button>
-            <p>Don't have an account? <Link to="/signup">Sign up here</Link></p>
+            <section id='content'>
+                <h1>Login</h1>
+                <input
+                    type="text"
+                    placeholder='Username'
+                    value={username}
+                    onChange={(username) => setUsername(username.target.value)}
+                />
+                <input
+                    type="password"
+                    placeholder='Password'
+                    value={password}
+                    onChange={(password) => setPassword(password.target.value)}
+                />
+                <button onClick={handleLogin}>Login</button>
+                <p>Don't have an account? <Link to="/signup">Sign up here</Link></p>
+            </section>
         </div>
     );
+*/
+
+/* New, CSS, version */
+    return (
+        <div>
+            <section id='content' style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}> {/* Flex column */}
+                <h1>Login</h1>
+                <input
+                    type="text"
+                    placeholder='Username'
+                    value={username}
+                    onChange={(username) => setUsername(username.target.value)}
+                    style={{ width: '100%', boxSizing: 'border-box', marginBottom: '10px' }} // Full width, margin below
+                />
+                <input
+                    type="password"
+                    placeholder='Password'
+                    value={password}
+                    onChange={(password) => setPassword(password.target.value)}
+                    style={{ width: '100%', boxSizing: 'border-box', marginBottom: '10px' }} // Full width, margin below
+                />
+                <button onClick={handleLogin} style={{ width: '100%', boxSizing: 'border-box', marginBottom: '10px' }}>Login</button> {/* Full width, margin below */}
+                <p>Don't have an account? <Link to="/signup">Sign up here</Link></p>
+            </section>
+        </div>
+    );
+
 
 }//LoginPage()

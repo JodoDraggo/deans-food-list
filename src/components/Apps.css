@@ -1,0 +1,259 @@
+/* General Styles */
+body {
+  font-family: 'Playfair Display', serif;
+  margin: 0;
+  padding: 0;
+  background-color: #D1FFBD;
+  color: #333;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+header {
+  background-color: #333;
+  width: 100%;
+  padding: 20px;
+  text-align: center;
+  color: #D1FFBD;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 3em;
+  font-weight: 700;
+}
+
+nav {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  background-color: #444;
+  padding: 10px 0;
+  position: fixed;
+  top: 80px;
+  left: 0;
+  z-index: 999;
+}
+
+nav a {
+  padding: 15px 20px;
+  color: #D1FFBD;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-weight: 500;
+  font-size: 1.2em;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+nav a:hover {
+  background-color: #D1FFBD;
+  color: #333;
+  border-radius: 5px;
+}
+
+#content {
+  background-color: #fff;
+  padding: 30px;
+  width: 90%;
+  max-width: 1200px;
+  border-radius: 15px;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+  margin-top: 140px;
+  text-align: center;
+  font-size: 1.2em;
+}
+
+#content p {
+  margin: 0;
+  color: #555;
+}
+
+/* Quick Entry Box for Adding Items */
+.quick-entry {
+  margin-top: 20px;
+}
+
+#new-item {
+  width: 300px;
+  padding: 10px;
+  border: 2px solid #333;
+  border-radius: 5px;
+  font-size: 1.1em;
+}
+
+#add-button {
+  padding: 10px 15px;
+  margin-left: 10px;
+  background-color: #333;
+  color: #D1FFBD;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.1em;
+  cursor: pointer;
+}
+
+#add-button:hover {
+  background-color: #555;
+}
+
+/* Inventory Table Styles */
+.inventory-table {
+  width: 100%;
+  max-width: 800px;
+  margin: 20px auto;
+  border-collapse: collapse;
+  font-size: 1.1em;
+}
+
+.inventory-table th, .inventory-table td {
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+}
+
+.inventory-table th {
+  background-color: #444;
+  color: #D1FFBD;
+}
+
+.inventory-table td {
+  background-color: #fff;
+  color: #333;
+}
+
+.inventory-table button {
+  padding: 5px 10px;
+  margin-left: 5px;
+  background-color: #333;
+  color: #D1FFBD;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.inventory-table button:hover {
+  background-color: #555;
+}
+
+/* Form Styles */
+.item-form {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.item-form input {
+  padding: 10px;
+  border: 2px solid #333;
+  border-radius: 5px;
+  font-size: 1.1em;
+  width: 200px;
+}
+
+.item-form button {
+  padding: 10px 20px;
+  background-color: #333;
+  color: #D1FFBD;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.item-form button:hover {
+  background-color: #555;
+}
+
+/* Settings Page Styles */
+section#content {
+  text-align: left;
+}
+
+h2, h3 {
+  color: #333;
+}
+
+label, select, input[type="text"], button {
+  font-size: 1em;
+  margin: 10px 0;
+}
+
+input[type="checkbox"], input[type="radio"] {
+  margin-right: 10px;
+}
+
+input[type="text"] {
+  padding: 10px;
+  border: 2px solid #333;
+  border-radius: 5px;
+  font-size: 1em;
+  width: 300px;
+}
+
+button {
+  padding: 10px 15px;
+  background-color: #333;
+  color: #D1FFBD;
+  border: none;
+  border-radius: 5px;
+  font-size: 1em;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #555;
+}
+
+ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+ul li {
+  background-color: #D1FFBD;
+  padding: 5px;
+  margin: 5px 0;
+  border-radius: 5px;
+}
+/* Add styles for the sort-category dropdown */
+.sort-category {
+  margin-top: 20px;
+}
+
+.sort-category select {
+  padding: 10px;
+  font-size: 1.1em;
+}
+/* Style for the category dropdown */
+#item-category {
+  padding: 10px;
+  margin-left: 10px;
+  border: 2px solid #333;
+  border-radius: 5px;
+  font-size: 1.1em;
+}
+/* Sorting Options Styles */
+.sorting-options {
+  margin: 20px 0;
+}
+
+.sorting-options button {
+  padding: 10px 15px;
+  margin-right: 10px;
+  background-color: #333;
+  color: #D1FFBD;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.1em;
+  cursor: pointer;
+}
+
+.sorting-options button:hover {
+  background-color: #555;
+}

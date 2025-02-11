@@ -9,6 +9,7 @@ export default function InventoryPage() {
     const [newItem, setNewItem] = useState({ name: '', quantity: '', expiration: '', category: '', upc: '' });
     const [sortCategory, setSortCategory] = useState('');
     const [sortBy, setSortBy] = useState('');
+    const [sortOrder, setSortOrder] = useState('asc'); // State to track sort order
     const [showScanner, setShowScanner] = useState(false); // State to show the scanner
     const [scannedUPC, setScannedUPC] = useState(''); // State to store the scanned UPC
 
@@ -43,7 +44,7 @@ export default function InventoryPage() {
     const addItem = (item) => {
         console.log("Adding item from UPC scan:", item); // Log the item being added
         // Use axios to send a POST request to the backend to add the new item to the inventory table
-        axios.post('http://localhost:3001/inventory', {
+        axios.post('http://deansfoodlist.ddns.net:3001/inventory', {
             item_name: item.name,
             quantity: item.quantity,
             expiration_date: item.expiration === 'No Expiration' ? null : item.expiration, // Set expiration to null if "No Expiration"
@@ -76,13 +77,20 @@ export default function InventoryPage() {
 
     // Handle sorting by field (e.g., name, quantity, expiration)
     const handleSortByField = (field) => {
-        setSortBy(field);
+        if (sortBy === field) {
+            // Toggle the sorting order if the same field is clicked
+            setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+        } else {
+            // Set new field and default to ascending order
+            setSortBy(field);
+            setSortOrder('asc');
+        }
     };
 
     // Handle deleting an item
     const deleteItem = (id) => {
         // Use axios to send a DELETE request to the backend
-        axios.delete(`http://localhost:3001/inventory/${id}`)
+        axios.delete(`http://deansfoodlist.ddns.net:3001/inventory/${id}`)
             .then(() => {
                 // Filter out the deleted item from the current items state
                 setItems(items.filter(item => item.id !== id));
@@ -168,7 +176,7 @@ export default function InventoryPage() {
                         setShowScanner(false); // Hide the scanner after scanning
                     }
                 });
-            }, 10000000000);
+            }, 3000);
 
             // Cleanup on component unmount or when scanner is stopped
             return () => {
@@ -184,14 +192,24 @@ export default function InventoryPage() {
         : items;
 
     const sortedItems = filteredItems.sort((a, b) => {
-        if (sortBy === 'name') {
-            return a.name.localeCompare(b.name);
+        if (sortBy === 'item_name') {
+            return sortOrder === 'asc'
+                ? a.item_name.localeCompare(b.item_name)
+                : b.item_name.localeCompare(a.item_name);
         } else if (sortBy === 'quantity') {
-            return a.quantity - b.quantity;
-        } else if (sortBy === 'expiration') {
-            return new Date(a.expiration) - new Date(b.expiration);
+            return sortOrder === 'asc'
+                ? a.quantity - b.quantity
+                : b.quantity - a.quantity;
+        } else if (sortBy === 'expiration_date') {
+            console.log("Expiration: ", a.expiration_date, b.expiration_date);
+            const dateA = new Date(a.expiration_date).getTime() || Infinity;
+            const dateB = new Date(b.expiration_date).getTime() || Infinity;
+            
+            return sortOrder === 'asc'
+                ? dateA - dateB
+                : dateB - dateA;
         }
-        return 0; // No sorting
+        return 0;
     });
 
     useEffect(() => {
@@ -200,7 +218,7 @@ export default function InventoryPage() {
         if(token) {
             const fetchItems = async () => {
                 try {
-                    const items = await axios.get('http://localhost:3001/inventory', {
+                    const items = await axios.get('http://deansfoodlist.ddns.net:3001/inventory', {
                         headers: {Authorization: `Bearer ${token}`}
                     });
                     setItems(items.data); //Store the fetched items
@@ -226,7 +244,7 @@ export default function InventoryPage() {
     return (
         <div className="inventory-page">
             <header>
-                <h1>Dean's List</h1>
+                <h1>Dean's Food List</h1>
             </header>
 
             <nav>
@@ -238,7 +256,8 @@ export default function InventoryPage() {
 
             <section id="content">
                 <h2>Inventory</h2>
-                <p>Manage your grocery inventory here. Add, edit, or delete items from your inventory list.</p>
+                <p>Manage your grocery inventory here. Add or delete items from your inventory list.</p>
+                <p><strong>Items may be added via manual input or via UPC barcode scanning.</strong></p>
 
                 <div className="item-form">
                     <input
@@ -277,9 +296,8 @@ export default function InventoryPage() {
                         value={newItem.upc}
                         onChange={handleUPCChange} // Trigger fetch when UPC is manually entered
                     />
-                    <button onClick={() => setShowScanner(true)}>Scan UPC</button>
-
                     <button onClick={() => addItem(newItem)}>Add Item</button>
+                    <button onClick={() => setShowScanner(true)}>Scan UPC</button>
                 </div>
 
                 {/* Webcam for UPC Scanning */}
@@ -300,7 +318,7 @@ export default function InventoryPage() {
                 )}
 
                 <div className="sort-options">
-                    <label>Sort by Category: </label>
+                    <label>Filter by Category: </label>
                     <select onChange={(e) => handleSortCategory(e.target.value)}>
                         <option value="">All</option>
                         <option value="Dairy">Dairy</option>
@@ -312,9 +330,9 @@ export default function InventoryPage() {
                     <label>Sort by Field: </label>
                     <select onChange={(e) => handleSortByField(e.target.value)}>
                         <option value="">None</option>
-                        <option value="name">Name</option>
+                        <option value="item_name">Name</option>
                         <option value="quantity">Quantity</option>
-                        <option value="expiration">Expiration Date</option>
+                        <option value="expiration_date">Expiration Date</option>
                     </select>
                 </div>
 
@@ -322,7 +340,12 @@ export default function InventoryPage() {
                     <thead>
                         <tr>
                             <th>Item Name</th>
-                            <th>Quantity</th>
+                            <th
+                                style={{ cursor: 'pointer' }}
+                                onClick={() => handleSortByField('quantity')}
+                            >
+                                Quantity {sortBy === 'quantity' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
+                            </th>
                             <th>Expiration Date</th>
                             <th>Category</th>
                             <th>UPC Code</th>
