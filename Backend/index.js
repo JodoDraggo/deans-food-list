@@ -21,10 +21,10 @@ app.use(bodyParser.json());
 //Create MySQL database connection template
 const mysql = require('mysql2');
 const db = mysql.createConnection({
-    host: "localhost",
-    user: "admin", //can also try userjonah with password my_password
-    password: "password",
-    database: "my_database"
+    host: "",      //fill in with your database information
+    user: "",          //fill in with your database information
+    password: "",   //fill in with your database information
+    database: "" //fill in with your database information
 })
 
 //Actually connect to the database
