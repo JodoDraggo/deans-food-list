@@ -9,7 +9,8 @@ const cors = require('cors');
 const app = express();
 const secretKey = 'token_key';
 const jwt = require('jsonwebtoken');
-const port = 3001;
+//const port = 3001; //changed to 3306 to work with XAMPP control panel
+const port = 3306; 
 const bodyParser = require('body-parser'); //used for parsing JSON files
 app.use(cors());
 app.use(express.json());
@@ -21,8 +22,8 @@ app.use(bodyParser.json());
 const mysql = require('mysql2');
 const db = mysql.createConnection({
     host: "localhost",
-    user: "userjonah", //can also try userjonah with password my_password
-    password: "my_password",
+    user: "admin", //can also try userjonah with password my_password
+    password: "password",
     database: "my_database"
 })
 
