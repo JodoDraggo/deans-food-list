@@ -1,0 +1,6 @@
+Database Note!
+You must forward the following ports on your router:
+80 to 80
+3001 to 3001
+3306 to 3306
+Each is a separate rule. The inbound is the same as the outbound.
